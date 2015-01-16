@@ -11,8 +11,38 @@ var Mixins        = require("./mixins.js"),
     SassFuns      = require("./sass_functions.js"),
     Variables     = require("./variables.js");
 
-var AllRules      = [ Mixins, RubyFuns, SassBasedFuns, SassFuns, Variables ],
-    Counts        = AllRules.map(function(X) { return X.length; }),
-    Count         = Counts.reduce(function(P,X) { return P+X; }, 0);
+var AllRules      = [].concat( Mixins, RubyFuns, SassBasedFuns, SassFuns, Variables );
 
-console.log("\nCheck against " + Count.toString() + " = " + JSON.stringify(Counts) + " rules.\n");
+
+
+
+
+function Scan(String) {
+
+    var Work = [];
+    AllRules.map(function(RuleX) {
+      if (String.indexOf(RuleX) > -1) {
+        Work.push(RuleX);
+      }
+    });
+
+    return Work;
+
+}
+
+console.log("Scan(\"abc\")");
+console.log(Scan("abc"));
+
+console.log("Scan(\"base-leader\")");
+console.log(Scan("base-leader"));
+
+console.log("Scan(\"aza base-leader aza\")");
+console.log(Scan("aza base-leader aza"));
+
+console.log("Scan(\"aza base-leader\")");
+console.log(Scan("aza base-leader"));
+
+console.log("Scan(\"base-leader aza\")");
+console.log(Scan("base-leader aza"));
+
+module.exports = Scan;
