@@ -1,0 +1,33 @@
+{
+  "author": "John Haugeland",
+  "name": "ReverseLodestone",
+  "description": "Lodestones are for compasses to find things. Reverse lodestone is to help you find (and maybe remove) SASS Compass.",
+  "version": "0.0.1",
+  "repository": {
+    "url": "https://github.com/StoneCypher/ReverseLodestone.git"
+  },
+  "keywords": [
+    "Lodestone",
+    "Reverse",
+    "ReverseLodestone",
+    "Compass",
+    "SASS",
+    "Ruby",
+    "Anti-Ruby",
+    "detect",
+    "StoneCypher"
+  ],
+  "devDependencies": {
+    "vows": "*"
+  },
+  "dependencies": {
+    "sc-eslint": "*"
+  },
+  "main": "rlode.js",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "vows test/* --spec"
+  }
+}
