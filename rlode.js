@@ -11,7 +11,11 @@ var Mixins        = require("./mixins.js"),
     SassFuns      = require("./sass_functions.js"),
     Variables     = require("./variables.js");
 
-var AllRules      = [].concat( Mixins, RubyFuns, SassBasedFuns, SassFuns, Variables );
+var AllRules      = [ [ "Mixins",        Mixins        ], 
+                      [ "RubyFuns",      RubyFuns      ], 
+                      [ "SassFuns",      SassFuns      ],
+                      [ "SassBasedFuns", SassBasedFuns ],
+                      [ "Variables",     Variables     ] ];
 
 
 
@@ -19,14 +23,19 @@ var AllRules      = [].concat( Mixins, RubyFuns, SassBasedFuns, SassFuns, Variab
 
 function Scan(String) {
 
-    var Work = [];
-    AllRules.map(function(RuleX) {
+  var Work = [];
+
+  AllRules.map(function(RuleSetTuple) {
+    var IWork = [];
+    RuleSetTuple[1].map(function(RuleX) {
       if (String.indexOf(RuleX) > -1) {
-        Work.push(RuleX);
+        IWork.push(RuleX);
       }
     });
+    if (IWork.length) { Work.push(RuleSetTuple[0], IWork); }
+  });
 
-    return Work;
+  return Work;
 
 }
 
