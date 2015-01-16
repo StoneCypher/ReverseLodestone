@@ -11,6 +11,8 @@
 
 var Glob          = require("glob"),
     FS            = require("fs"),
+    color         = require("cli-color"),
+    ctrim         = require('cli-color/trim'),
 
     Mixins        = require("./mixins.js"),
     RubyFuns      = require("./ruby_based_functions.js"),
@@ -86,8 +88,10 @@ function ScanEach(StringStringTupleArray, Options) {
 
 function ScanGlob(TheGlob, _Options) {
 
-    var files = Glob.sync(TheGlob, undefined),
+    var files = Glob.sync(TheGlob, ['nosort']),
         fdata = [];
+
+console.log(JSON.stringify(TheGlob));
 
     files.map(function(File) {
         var FData = FS.readFileSync(File, 'utf8');
@@ -102,10 +106,78 @@ function ScanGlob(TheGlob, _Options) {
 
 
 
+function NicePrint(Result) {
+
+    console.log(color.red(JSON.stringify(Result)));
+
+    if (Result.length) {
+
+        console.log(color.white('Some possible Compass terms detected in the following files:'));
+
+        Result.map(function(ResultItem) {
+
+            var Filename   = ResultItem[0],
+                Violations = ResultItem[1];
+
+            console.log(color.cyan( '\n  ' + Filename ));
+            console.log(color.blue( '  ' + new Array(Filename.length+1).join('=') ));
+
+            Violations.map(function(ViolationKind) {
+
+                var ViolationClass  = ViolationKind[0],
+                    ViolationItems  = ViolationKind[1],
+                    first           = true,
+                    PrintLeader     = "      ",
+                    Separator       = ", ",
+                    MaxWidth        = 158,
+                    CurrentLine     = PrintLeader,
+
+                    AddGapToLeader  = function() {
+                        CurrentLine += color.magenta(Separator);
+                    },
+
+                    AddItemToLeader = function(Item) {
+                        if (first) { first = false; } else { AddGapToLeader(); }
+                        CurrentLine += color.blue(Item);
+                    };
+
+                console.log(color.green("    Possible violations of type ") + color.yellow(ViolationClass) + color.green(':') );
+
+                ViolationItems.map(function(ThisViolation) {
+
+                    if ((ctrim(CurrentLine).length + Separator.length + ThisViolation.length) > MaxWidth) {
+
+                        AddGapToLeader();
+                        first = true;
+                        console.log(CurrentLine);
+                        CurrentLine = PrintLeader;
+                    }
+
+                    AddItemToLeader(ThisViolation);
+
+                });
+
+                console.log(CurrentLine + '\n');
+
+            });
+
+        });
+
+    } else {
+        console.log(color.green('No Compass terms detected'));
+    }
+
+}
+
+
+
+
+
 module.exports = {
 
-    scan      : Scan,
-    scan_each : ScanEach,
-    scan_glob : ScanGlob
+    scan       : Scan,
+    scan_each  : ScanEach,
+    scan_glob  : ScanGlob,
+    nice_print : NicePrint
 
 };
