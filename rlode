@@ -24,5 +24,4 @@ Commander
 
 Result = rlode.scan_glob(Commander.glob, "options bar");
 
-// console.log('Matches:' + JSON.stringify(Result, undefined, 2));
 rlode.nice_print(Result);

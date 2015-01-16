@@ -88,10 +88,8 @@ function ScanEach(StringStringTupleArray, Options) {
 
 function ScanGlob(TheGlob, _Options) {
 
-    var files = Glob.sync(TheGlob, ['nosort']),
+    var files = new Glob.sync(TheGlob),
         fdata = [];
-
-console.log(JSON.stringify(TheGlob));
 
     files.map(function(File) {
         var FData = FS.readFileSync(File, 'utf8');
@@ -107,8 +105,6 @@ console.log(JSON.stringify(TheGlob));
 
 
 function NicePrint(Result) {
-
-    console.log(color.red(JSON.stringify(Result)));
 
     if (Result.length) {
 
