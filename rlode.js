@@ -23,25 +23,26 @@ var AllRules      = [ [ "Mixins",        Mixins        ],
 
 function Scan(TString) {
 
-  var Work = [];
+    var Work = [];
 
-  AllRules.map(function(RuleSetTuple) {
-console.log(RuleSetTuple[0]);
-    var IWork = [];
-    RuleSetTuple[1].map(function(RuleX) {
-      if (TString.indexOf(RuleX) > -1) {
-console.log('found ' + RuleX + ' in ' + RuleSetTuple[0] + ' ' + TString);
-        IWork.push(RuleX);
-      } else {
-console.log('did not find ' + RuleX + ' in ' + RuleSetTuple[0] + ' ' + TString);
-      }
+    AllRules.map(function(RuleSetTuple) {
+
+        var IWork = [];
+        RuleSetTuple[1].map(function(RuleX) {
+
+            if (TString.indexOf(RuleX) > -1) {
+                IWork.push(RuleX);
+            }
+
+        });
+
+        if (IWork.length) {
+            Work.push([RuleSetTuple[0], IWork]);
+        }
+
     });
 
-    if (IWork.length) { Work.push(RuleSetTuple[0], IWork); }
-
-  });
-
-  return Work;
+    return Work;
 
 }
 
@@ -49,20 +50,30 @@ console.log('did not find ' + RuleX + ' in ' + RuleSetTuple[0] + ' ' + TString);
 
 
 
-function ScanEach(StringStringTupleArray) {
+function ScanEach(StringStringTupleArray, Options) {
 
-  var Work = [],
-      Res;
+    var Work = [],
+        Res;
 
-  StringStringTupleArray.map(function(SST) {
-    Res = Scan(SST[1]);
-    if (Res.length) {
-      console.log('###' + Res);
-      Work.push([SST[0], Res]);
-    }
-  });
+    StringStringTupleArray.map(function(SST) {
 
-  return Work;
+        Res = Scan(SST[1]);
+
+        if (Res.length) {
+            Work.push([SST[0], Res]);
+        }
+
+    });
+
+    return Work;
+
+}
+
+
+
+
+
+function ScanGlob(Glob, Options) {
 
 }
 
@@ -72,12 +83,12 @@ function ScanEach(StringStringTupleArray) {
 
 console.log(JSON.stringify(ScanEach([ 
 
-  ["foo",              "foo"             ],
-  ["leader",           "leader"          ],
-  ["aza leader",       "aza leader"      ],
-  ["leader aza",       "leader aza"      ],
-  ["aza leader aza",   "aza leader aza"  ],
-  ["sprite-selectors", "sprite-selectors"]
+    ["foo",              "foo"             ],
+    ["leader",           "leader"          ],
+    ["aza leader",       "aza leader"      ],
+    ["leader aza",       "leader aza"      ],
+    ["aza leader aza",   "aza leader aza"  ],
+    ["sprite-selectors", "sprite-selectors"]
 
 ]), undefined, 2));
 
@@ -85,4 +96,10 @@ console.log(JSON.stringify(ScanEach([
 
 
 
-module.exports = Scan;
+module.exports = {
+
+        scan      : Scan,
+        scan_each : ScanEach,
+        scan_glob : ScanGlob
+
+};
