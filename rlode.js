@@ -75,12 +75,14 @@ function ScanEach(StringStringTupleArray, Options) {
 
 function ScanGlob(Glob, Options) {
 
+    console.log(Glob.toString());
+
 }
 
 
 
 
-
+/*
 console.log(JSON.stringify(ScanEach([ 
 
     ["foo",              "foo"             ],
@@ -91,7 +93,7 @@ console.log(JSON.stringify(ScanEach([
     ["sprite-selectors", "sprite-selectors"]
 
 ]), undefined, 2));
-
+*/
 
 
 

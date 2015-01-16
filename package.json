@@ -15,15 +15,23 @@
     "Ruby",
     "Anti-Ruby",
     "detect",
+    "Revove",
+    "Detect",
+    "Scan",
+    "Locate",
     "StoneCypher"
   ],
   "devDependencies": {
     "vows": "*"
   },
   "dependencies": {
+    "glob": "*",
     "sc-eslint": "*"
   },
   "main": "rlode.js",
+  "bin": {
+    "rlode": "./rlode"
+  },
   "engines": {
     "node": "*"
   },
