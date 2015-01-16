@@ -1,9 +1,27 @@
 #!/usr/bin/env node
 
 "use strict";
-var path = require('path');
-var fs   = require('fs');
 
-var lib  = path.join( path.dirname( fs.realpathSync(__filename) ), 'rlode.js' );
+var path      = require("path"),
+    fs        = require("fs"),
+    Commander = require("commander"),
 
-require(lib).scan_glob('foo', 'bar');
+    Package   = require("./package.json"),
+    rlode     = require(path.join( path.dirname( fs.realpathSync(__filename) ), "rlode.js" )),
+
+    Result;
+
+
+
+
+
+Commander
+   .version(Package.version)
+   .option("-g, --glob [glob string]", "Glob string for file list matching")
+   .parse(process.argv);
+
+
+
+Result = rlode.scan_glob(Commander.glob, "options bar");
+
+console.log('Matches:' + JSON.stringify(Result, undefined, 2));
