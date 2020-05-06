@@ -28,7 +28,8 @@
     "cli-color": "*",
     "commander": "*",
     "glob": "*",
-    "sc-eslint": "*"
+    "sc-eslint": "*",
+    "snyk": "^1.319.0"
   },
   "main": "rlode.js",
   "bin": {
@@ -38,6 +39,9 @@
     "node": "*"
   },
   "scripts": {
-    "test": "vows test/* --spec"
-  }
+    "test": "vows test/* --spec",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
